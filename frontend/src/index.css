@@ -1,68 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+/* ── Design tokens ── */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  --bg:         #0d0f14;
+  --surface:    #13161e;
+  --surface-2:  #1a1e2a;
+  --border:     #252a38;
+  --border-hover: #3a4260;
+  --accent:     #4f8ef7;
+  --accent-dim: rgba(79, 142, 247, 0.12);
+  --danger:     #f75d5d;
+  --danger-dim: rgba(247, 93, 93, 0.1);
+  --success:    #3ecf8e;
+  --text-1:     #e8ecf4;
+  --text-2:     #8b92a8;
+  --text-3:     #555d72;
+  --radius:     10px;
+  --radius-sm:  6px;
+  --mono:       'DM Mono', monospace;
+  --sans:       'DM Sans', sans-serif;
+  --shadow:     0 4px 24px rgba(0,0,0,0.4);
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.25);
+
+  font-family: var(--sans);
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-1);
+  background-color: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,142,247,0.08) 0%, transparent 60%),
+    var(--bg);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+a {
+  color: var(--accent);
+  text-decoration: none;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+}
+a:hover { text-decoration: underline; }
+
+/* ── Layout wrapper ── */
+#root {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+/* ── Headings ── */
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text-1);
+  margin: 0 0 8px;
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin: 0 0 20px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* ── Table ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  font-size: 0.9rem;
+}
+
+thead {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  padding: 13px 16px;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s ease;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface-2); }
+
+tbody td {
+  padding: 12px 16px;
+  color: var(--text-1);
+  vertical-align: middle;
+}
+
+/* ID column monospace */
+tbody td:first-child {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+
+/* Salary column */
+tbody td:nth-child(6) {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--success);
+}
+
+/* Dash placeholders */
+tbody td:not(:last-child) {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Inline edit inputs (inside table) ── */
+td input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  color: var(--text-1);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+td input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* ── Add form inputs ── */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+form input {
+  flex: 1 1 160px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  color: var(--text-1);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 0;
+}
+form input::placeholder { color: var(--text-3); }
+form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* ── Buttons ── */
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: var(--sans);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  background: var(--surface-2);
+  color: var(--text-2);
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
 }
-button:focus,
+button:active { transform: scale(0.97); }
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Primary "Add" button */
+form button[type="submit"] {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  border-radius: var(--radius);
+}
+form button[type="submit"]:hover {
+  background: #6ba3f9;
+  border-color: #6ba3f9;
+  color: #fff;
+}
+
+/* Save button (inline edit) */
+button:not([style*="red"]):not([type="submit"]):first-of-type {
+  border-color: var(--success);
+  color: var(--success);
+  background: rgba(62, 207, 142, 0.08);
+}
+
+/* Delete / danger button */
+button[style*="red"],
+button[style*="color: red"] {
+  color: var(--danger) !important;
+  border-color: var(--danger) !important;
+  background: var(--danger-dim) !important;
+}
+button[style*="red"]:hover,
+button[style*="color: red"]:hover {
+  background: rgba(247, 93, 93, 0.2) !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 99px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  #root { padding: 24px 16px 60px; }
+
+  table { font-size: 0.82rem; display: block; overflow-x: auto; }
+  thead th, tbody td { padding: 10px 12px; }
+
+  form { flex-direction: column; align-items: stretch; }
+  form input { flex: unset; width: 100%; }
+  form button[type="submit"] { width: 100%; justify-content: center; }
 }
